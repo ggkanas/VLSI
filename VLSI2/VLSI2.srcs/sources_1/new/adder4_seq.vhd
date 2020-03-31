@@ -36,7 +36,7 @@ end component;
     signal inB3 : STD_LOGIC;
     --signal inC : STD_LOGIC;
     signal Carry : STD_LOGIC_VECTOR(3 downto 0);
-    signal Carry_reg : STD_LOGIC_VECTOR(3 downto 0);
+    --signal Carry_reg : STD_LOGIC_VECTOR(3 downto 0);
     signal Sout : STD_LOGIC_VECTOR(3 downto 0);
     signal sum1 : STD_LOGIC;
     signal sum2 : STD_LOGIC_VECTOR(1 downto 0);
@@ -94,7 +94,7 @@ FA3 : full_adder_seq_behav
                 inB2 <= (others => '0');
                 inA3 <= '0';
                 inB3 <= '0';
-                Carry_reg <= (others => '0');
+                --Carry_reg <= (others => '0');
                 --inC <= '0';
                 outputS <= (others => '0');
                 sum1 <= '0';
@@ -115,11 +115,10 @@ FA3 : full_adder_seq_behav
                 --inA <= inputA;
                 --inB <= inputB;
                 --inC <= Cin;
-                Carry_reg <= Carry;
             end if;
         end if;
     end process;
-    Cout <= Carry_reg(3);
+    Cout <= Carry(3);
 
 
 end Behavioral;
