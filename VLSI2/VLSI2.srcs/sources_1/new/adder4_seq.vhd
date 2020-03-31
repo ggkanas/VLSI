@@ -110,7 +110,8 @@ FA3 : full_adder_seq_behav
                 outputS <= Sout(3) & sum3;
                 sum3 <= Sout(2) & sum2;
                 sum2 <= (1 => Sout(1), 0 => sum1); 
-                sum1 <= Sout(0);                   
+                sum1 <= Sout(0);
+                Cout <= Carry(3);                   
                 --outputS <= sum;
                 --inA <= inputA;
                 --inB <= inputB;
@@ -118,7 +119,6 @@ FA3 : full_adder_seq_behav
             end if;
         end if;
     end process;
-    Cout <= Carry(3);
 
 
 end Behavioral;
