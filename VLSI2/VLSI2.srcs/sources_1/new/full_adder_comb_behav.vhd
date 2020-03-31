@@ -1,5 +1,6 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 entity full_adder_comb_behav is
     Port (inputA  : in STD_LOGIC;
@@ -11,18 +12,19 @@ end full_adder_comb_behav;
 
 architecture FA_behavioral of full_adder_comb_behav is
 
-    signal sum : STD_LOGIC_VECTOR(1 downto 0);
+    signal sum : STD_LOGIC_VECTOR(1 downto 0) := (others => '0');
     signal vect1 : STD_LOGIC_VECTOR(0 downto 0);
     signal vect2 : STD_LOGIC_VECTOR(0 downto 0);
     signal vect3 : STD_LOGIC_VECTOR(0 downto 0);
 
 begin
-    process
+    vect1 <= (0 => inputA);
+    vect2 <= (0 => inputB);
+    vect3 <= (0 => Cin);
+    process(vect1, vect2, vect3)
     begin
-        vect1 <= (0 => inputA);
-        vect2 <= (0 => inputB);
-        vect3 <= (0 => Cin);
         sum <= ('0' & vect1) + ('0'& vect2) + ('0' & vect3);
+
     end process;
     outputS <= sum(0);
     Cout <= sum(1);

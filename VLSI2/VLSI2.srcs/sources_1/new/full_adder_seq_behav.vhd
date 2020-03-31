@@ -44,11 +44,12 @@ begin
                 --Cout <= sum(1);
             end if;
         end if;
-        vect1 <= (0 => inA);
-        vect2 <= (0 => inB);
-        vect3 <= (0 => inC);
-        sum <= ('0' & vect1) + ('0'& vect2) + ('0' & vect3);
-        outputS <= sum(0);
-        Cout <= sum(1);
+
     end process;
+    vect1 <= (0 => inA);
+    vect2 <= (0 => inB);
+    vect3 <= (0 => inC);
+    sum <= ('0' & vect1) + ('0'& vect2) + ('0' & vect3);
+    outputS <= sum(0);
+    Cout <= sum(1);
 end FA_behavioral;

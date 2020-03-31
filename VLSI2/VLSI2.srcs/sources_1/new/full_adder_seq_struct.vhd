@@ -49,7 +49,7 @@ begin
      );
      process(clk)
      begin
-     if clk'event and clk='1' then
+     if rising_edge(clk) then
         if rst='1' then
             --Cout <= '0';
             --outputS <= '0';
@@ -58,14 +58,15 @@ begin
             inC <= '0';
         else
             inA <= inputA;
-            inB <= inB;
+            inB <= inputB;
             inC <= Cin;
             --Cout <= outC1 or outC2;
             --outputS <= sum;
         end if;
-     end if;
-     Cout <= outC1 or outC2;
-     outputS <= sum;   
-     end process;
 
+     end if;
+   
+     end process;
+     Cout <= outC1 or outC2;
+     outputS <= sum;
 end FA_structural;
