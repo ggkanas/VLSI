@@ -30,7 +30,6 @@ architecture testbench of parallelFIR_tb is
   signal valid_out : std_logic;
   signal y1 : std_logic_vector(18 downto 0);
   signal y2 : std_logic_vector(18 downto 0);
-  signal h : regsN_8 := (X"01",X"02",X"03",X"04",X"05",X"06",X"07",X"08");
   constant clk_period : time := 10 ns ;
 
   begin 
@@ -66,9 +65,9 @@ architecture testbench of parallelFIR_tb is
         x2 <= (others => '0');
         valid_in <='0';
         wait for clk_period*10;
-        valid_in <= '0';
+        valid_in <= '1';
         wait for clk_period*5;
-        
+        valid_in <='0';
         rst <= '1';
         wait for clk_period*5;
         rst <= '0';
@@ -81,7 +80,8 @@ architecture testbench of parallelFIR_tb is
         end loop;
         x1 <= (others => '0');
         x2 <= (others => '0');
-        valid_in <='0';
+        wait for 10* clk_period;
+        valid_in <= '0';
         wait;
     end process;
    

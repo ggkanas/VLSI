@@ -29,8 +29,7 @@ architecture Behavioral of parallelFIR is
   type regs3 is array (0 to 2) of reg2N;
   type bit9 is array (0 to 8) of std_logic;  
   
-  constant h : regsN_8 := (X"01",X"02",X"03",X"04",X"05",X"06",X"07",X"08");  --("00001000", "00000111", "00000110", "00000101", "00000100", "00000011", 
-                            --"00000010", "00000001"); 
+  constant h : regsN_8 := (X"01",X"02",X"03",X"04",X"05",X"06",X"07",X"08");
   signal xval : regsN  := (others => (others => '0'));
   signal mult1 : regs2N := (others => (others => '0'));
    signal mult2 : regs2N := (others => (others => '0'));
@@ -41,7 +40,6 @@ architecture Behavioral of parallelFIR is
   signal mbuffer5 : regs2 := (others => (others => '0'));
   signal mbuffer6 : regs3 := (others => (others => '0'));
   signal mbuffer7 : regs3 := (others => (others => '0'));
-  --signal mbuffer8 : regs3 := (others => (others => '0'));
   
   signal mbuffer3_2 : reg2N := (others => '0');
   signal mbuffer4_2 : reg2N := (others => '0');
@@ -49,13 +47,17 @@ architecture Behavioral of parallelFIR is
   signal mbuffer6_2 : regs2 := (others => (others => '0'));
   signal mbuffer7_2 : regs3 := (others => (others => '0'));
   signal mbuffer8_2 : regs3 := (others => (others => '0'));
-  signal validate : std_logic_vector(8 downto 0);
+  signal validate : std_logic;
   
 begin
 
     process(clk, rst) is
+    variable clock_counter : std_logic_vector(3 downto 0) := (others => '0');
+    variable clock_counter_start : std_logic := '1';
     begin
         if rst = '1' then
+            clock_counter := "0000";
+            clock_counter_start := '1';
             xval <= (others => (others => '0'));
             mult1 <= (others => (others => '0'));
             mult2 <= (others => (others => '0'));
@@ -73,9 +75,15 @@ begin
             mbuffer6_2 <= (others => (others => '0'));
             mbuffer7_2 <= (others => (others => '0'));
             mbuffer8_2 <= (others => (others => '0'));
-            validate <= (others => '0');        
+            validate <= '0';        
         elsif rising_edge(clk) then
           if valid_in = '1' then
+            if clock_counter_start = '1' then
+                clock_counter := clock_counter + 1;
+                if clock_counter = 9 then
+                    clock_counter_start := '0';
+                end if;
+            end if;
             for i in 8 downto 2 loop
                 xval(i) <= xval(i-2);
             end loop;
@@ -117,10 +125,9 @@ begin
             add(6) <= ("000" & mbuffer6(2)) + ("000" & mbuffer7(2)) + add(4);
             add(7) <= ("000" & mbuffer7_2(2)) + ("000" & mbuffer8_2(2)) + add(5);
             
-            for i in 8 downto 1 loop
-                validate(i) <= validate(i-1);
-            end loop;
-            validate(0) <= valid_in;
+            if valid_in = '1' and clock_counter = 9 then 
+                validate <= '1';
+            end if;
           end if;
         end if;
         xval(0) <= x2;
@@ -129,7 +136,7 @@ begin
     end process; 
     y2 <= add(6);
     y1 <= add(7);
-    valid_out <= validate(8) and valid_in;
+    valid_out <= validate and valid_in;
     
 
 

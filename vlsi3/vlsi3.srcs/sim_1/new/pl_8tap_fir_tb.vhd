@@ -22,10 +22,9 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.ALL;
-use IEEE.NUMERIC_STD.ALL;
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
@@ -65,21 +64,26 @@ architecture testbench of pl_8tap_fir_tb is
       valid_out => valid_out,
       y => y
     );   
-    
-    valid_in <= '1';
 
     stimulus : process
       variable r : std_logic := '0';
       begin
+        valid_in <= '0';
         rst <= '0';
         wait for wait_period*5;
         rst <= '1';
         wait for wait_period*5;
         rst <= '0';
-        wait for wait_period*5; 
+        wait for wait_period*5;
+        valid_in <= '1'; 
         for i in 1 to 15 loop
           x <= std_logic_vector(to_unsigned(i, 8));
           wait for wait_period;
+          if x = 12 then
+            valid_in <= '0';
+            wait for 5*wait_period;
+            valid_in <= '1';
+          end if;         
         end loop;
         x <= (others => '0');
         wait;
@@ -94,4 +98,3 @@ architecture testbench of pl_8tap_fir_tb is
     end process; 
   
 end testbench;
-
