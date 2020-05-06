@@ -75,7 +75,38 @@ architecture testbench of pl_8tap_fir_tb is
         wait for wait_period*5;
         rst <= '0';
         wait for wait_period*5;
-        valid_in <= '1'; 
+        valid_in <= '1';
+        
+        x <= std_logic_vector(to_unsigned(40, 8));
+        wait for wait_period;
+        x <= std_logic_vector(to_unsigned(248, 8));
+        wait for wait_period;
+        x <= std_logic_vector(to_unsigned(245, 8));
+        wait for wait_period;
+        x <= std_logic_vector(to_unsigned(124, 8));
+        wait for wait_period;
+        x <= std_logic_vector(to_unsigned(204, 8));
+        wait for wait_period;
+        x <= std_logic_vector(to_unsigned(36, 8));
+        wait for wait_period;
+        x <= std_logic_vector(to_unsigned(107, 8));
+        wait for wait_period;
+        x <= std_logic_vector(to_unsigned(234, 8));
+        wait for wait_period;
+        x <= std_logic_vector(to_unsigned(202, 8));
+        wait for wait_period;
+        x <= std_logic_vector(to_unsigned(245, 8));
+        wait for wait_period;
+        x <= (others => '0');
+        wait for wait_period*11;
+        
+        valid_in <= '0';
+        rst <= '1';
+        wait for wait_period*5;
+        rst <= '0';
+        wait for wait_period*5;
+        valid_in <= '1';       
+         
         for i in 1 to 15 loop
           x <= std_logic_vector(to_unsigned(i, 8));
           wait for wait_period;
@@ -86,6 +117,8 @@ architecture testbench of pl_8tap_fir_tb is
           end if;         
         end loop;
         x <= (others => '0');
+        wait for wait_period*10;
+        valid_in <= '0';
         wait;
     end process;
    

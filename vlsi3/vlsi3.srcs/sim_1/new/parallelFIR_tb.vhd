@@ -55,33 +55,50 @@ architecture testbench of parallelFIR_tb is
         wait for clk_period*5;
         rst <= '0';
         wait for clk_period*5;
-        valid_in <= '1'; 
+        valid_in <= '1';
+        
+        
+        x1 <= std_logic_vector(to_unsigned(40, 8));
+        x2 <= std_logic_vector(to_unsigned(248, 8));
+        wait for clk_period;
+        x1 <= std_logic_vector(to_unsigned(245, 8));
+        x2 <= std_logic_vector(to_unsigned(124, 8));
+        wait for clk_period;
+        x1 <= std_logic_vector(to_unsigned(204, 8));
+        x2 <= std_logic_vector(to_unsigned(36, 8));
+        wait for clk_period;
+        x1 <= std_logic_vector(to_unsigned(107, 8));
+        x2 <= std_logic_vector(to_unsigned(234, 8));
+        wait for clk_period;
+        x1 <= std_logic_vector(to_unsigned(202, 8));
+        x2 <= std_logic_vector(to_unsigned(245, 8));
+        wait for clk_period;
+        x1 <= (others => '0');
+        x2 <= (others => '0');
+        wait for clk_period*6;
+        
+        
+        valid_in <= '0';
+        rst <= '1';
+        wait for clk_period*5;
+        rst <= '0';
+        wait for clk_period*5;
+        valid_in <= '1';
+        
+         
         for i in 0 to 7  loop
           x1 <= std_logic_vector(to_unsigned(2*i+1, 8));
           x2 <= std_logic_vector(to_unsigned(2*i+2, 8));
           wait for clk_period;
         end loop;
-        x1 <= (others => '0');
-        x2 <= (others => '0');
+        
         valid_in <='0';
         wait for clk_period*10;
-        valid_in <= '1';
-        wait for clk_period*5;
-        valid_in <='0';
-        rst <= '1';
-        wait for clk_period*5;
-        rst <= '0';
-        wait for clk_period*5;
-        valid_in <= '1'; 
-        for i in 0 to 7  loop
-            x1 <= std_logic_vector(to_unsigned(2*i+1, 8));
-            x2 <= std_logic_vector(to_unsigned(2*i+2, 8));
-            wait for clk_period;
-        end loop;
         x1 <= (others => '0');
         x2 <= (others => '0');
-        wait for 10* clk_period;
-        valid_in <= '0';
+        valid_in <= '1';
+        wait for clk_period*10;
+        valid_in <='0';
         wait;
     end process;
    
